@@ -1,5 +1,4 @@
 workflows:
-
   # ─────────────────────────────────────────
   # iOS – App Store
   # ─────────────────────────────────────────
@@ -7,60 +6,49 @@ workflows:
     name: iOS Release (App Store)
     max_build_duration: 60
     instance_type: mac_mini_m2
-
     integrations:
-      app_store_connect: Batimemo_API_Key   # Nom à créer dans Codemagic → Teams → App Store Connect
-
+      app_store_connect: Batimemo_API_Key
     environment:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.batimemo.app
       flutter: stable
-      xcode: latest
+      xcode: 16.3
       cocoapods: default
       vars:
         APP_STORE_CONNECT_ISSUER_ID: b54efe57-637a-4e53-9ce7-73cb8808f9bb
         APP_STORE_CONNECT_KEY_IDENTIFIER: E5SZL8E0F7IG
         APPLE_TEAM_ID: 5S466VHLMK
         BUNDLE_ID: com.batimemo.app
-
     scripts:
       - name: Get Flutter packages
         script: flutter pub get
-
       - name: Generate code (MobX / build_runner)
         script: dart run build_runner build --delete-conflicting-outputs
-
       - name: Set up code signing settings on Xcode project
         script: xcode-project use-profiles
-
       - name: Install CocoaPods
         script: find . -name "Podfile" -execdir pod install \;
-
       - name: Build iOS (release)
         script: |
           flutter build ipa \
             --release \
             --export-options-plist=/Users/builder/export_options.plist
-
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
       - flutter_drive.log
-
     publishing:
       app_store_connect:
         auth: integration
-        submit_to_testflight: true   # Passe à false si tu ne veux pas TestFlight automatique
-        submit_to_app_store: false   # Passe à true pour publier directement
-
+        submit_to_testflight: true
+        submit_to_app_store: false
       email:
         recipients:
           - penegora39@gmail.com
         notify:
           success: true
           failure: true
-
   # ─────────────────────────────────────────
   # Android – Google Play
   # ─────────────────────────────────────────
@@ -68,30 +56,24 @@ workflows:
     name: Android Release (Play Store)
     max_build_duration: 60
     instance_type: linux_x2
-
     environment:
       android_signing:
-        - batimemo_keystore            # Nom à créer dans Codemagic → Teams → Code signing
+        - batimemo_keystore
       flutter: stable
       vars:
         PACKAGE_NAME: com.batimemo.app
-
     scripts:
       - name: Get Flutter packages
         script: flutter pub get
-
       - name: Generate code (MobX / build_runner)
         script: dart run build_runner build --delete-conflicting-outputs
-
       - name: Build Android App Bundle (release)
         script: |
           flutter build appbundle \
             --release
-
     artifacts:
       - build/app/outputs/bundle/release/*.aab
       - build/app/outputs/apk/release/*.apk
-
     publishing:
       email:
         recipients:
