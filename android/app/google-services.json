@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "189025090189",
+    "project_id": "batimemo",
+    "storage_bucket": "batimemo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:189025090189:android:32ed8c52b780bb5022c0c4",
+        "android_client_info": {
+          "package_name": "com.batimemo.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_3zOR-tgI-nyl5siUVYSnn8IbR4925hM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

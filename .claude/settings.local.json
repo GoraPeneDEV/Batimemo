@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(keytool:*)",
+      "Bash(dir \"C:\\\\Users\\\\LENOVO\\\\Documents\\\\oyee_app\\\\android\\\\app\\\\batimemo.jks\")",
+      "Bash(dir:*)",
+      "Bash(powershell -Command \"Get-ChildItem ''C:\\\\Users\\\\LENOVO\\\\Documents\\\\oyee_app\\\\android'' -Name\")",
+      "Bash(powershell -Command \"Get-ChildItem ''C:\\\\Users\\\\LENOVO\\\\Documents\\\\oyee_app\\\\android\\\\app'' -Name\")",
+      "Bash(flutter analyze:*)",
+      "Bash(if not exist \"C:\\\\Users\\\\LENOVO\\\\Documents\\\\oyee_app\\\\docs\" mkdir \"C:\\\\Users\\\\LENOVO\\\\Documents\\\\oyee_app\\\\docs\")",
+      "Bash(dart analyze:*)",
+      "Bash(flutter pub run build_runner build:*)",
+      "Bash(ls \"C:\\\\Users\\\\LENOVO\\\\Documents\\\\oyee_app\\\\lib\\\\screens\\\\Project\"\" 2>/dev/null || echo \"does not exist \")",
+      "Bash(powershell -Command:*)",
+      "Bash(/tmp/inspect_lang.ps1:*)",
+      "Bash(powershell.exe -File \"/tmp/inspect_lang.ps1\")",
+      "Bash(/tmp/fix_lang_full.ps1:*)",
+      "Bash(powershell.exe -File \"/tmp/fix_lang_full.ps1\")",
+      "Bash(python3:*)",
+      "Bash(node:*)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File fix_lang.ps1)",
+      "Bash(git init)",
+      "Bash(git remote add origin https://github.com/GoraPeneDEV/Batimemo.git)",
+      "Bash(git add .)"
+    ]
+  }
+}
