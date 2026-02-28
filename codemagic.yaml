@@ -9,14 +9,14 @@ workflows:
     instance_type: mac_mini_m2
 
     integrations:
-      app_store_connect: cd/batimemo   # Nom à créer dans Codemagic → Teams → App Store Connect
+      app_store_connect: cd/batimemo
 
     environment:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.batimemo.app
-      flutter: stable
-      xcode: latest
+      flutter: 3.38.9
+      xcode: "16.3"
       cocoapods: default
       vars:
         APP_STORE_CONNECT_ISSUER_ID: b54efe57-637a-4e53-9ce7-73cb8808f9bb
@@ -28,6 +28,9 @@ workflows:
       - name: Get Flutter packages
         script: flutter pub get
 
+      - name: Résoudre google_fonts (version compatible)
+        script: flutter pub upgrade google_fonts
+
       - name: Generate code (MobX / build_runner)
         script: dart run build_runner build --delete-conflicting-outputs
 
@@ -35,7 +38,9 @@ workflows:
         script: xcode-project use-profiles
 
       - name: Install CocoaPods
-        script: find . -name "Podfile" -execdir pod install \;
+        script: |
+          find . -name "Podfile.lock" -delete
+          find . -name "Podfile" -execdir pod install --repo-update \;
 
       - name: Build iOS (release)
         script: |
@@ -51,8 +56,8 @@ workflows:
     publishing:
       app_store_connect:
         auth: integration
-        submit_to_testflight: true   # Passe à false si tu ne veux pas TestFlight automatique
-        submit_to_app_store: false   # Passe à true pour publier directement
+        submit_to_testflight: true
+        submit_to_app_store: true
 
       email:
         recipients:
@@ -71,14 +76,17 @@ workflows:
 
     environment:
       android_signing:
-        - batimemo_keystore            # Nom à créer dans Codemagic → Teams → Code signing
-      flutter: stable
+        - batimemo_keystore
+      flutter: 3.38.9
       vars:
         PACKAGE_NAME: com.batimemo.app
 
     scripts:
       - name: Get Flutter packages
         script: flutter pub get
+
+      - name: Résoudre google_fonts (version compatible)
+        script: flutter pub upgrade google_fonts
 
       - name: Generate code (MobX / build_runner)
         script: dart run build_runner build --delete-conflicting-outputs
